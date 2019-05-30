@@ -16,13 +16,10 @@ def add_review():
 		_review = _json['review']
 		_created_at = _json['created_at']
 		_update_at = _json['update_at']
-		# _name = _json['name']
-		# _email = _json['email']
-		# _password = _json['pwd']
+
 		# validate the received values
 		if _order_id and product_id and _user_id and _rating and _review and _created_at and _update_at and request.method == 'POST':
-			#do not save password as a plain text
-			# _hashed_password = generate_password_hash(_password)
+
 			# save edits
 			sql = "INSERT INTO tbl_user_review(id, order_id, product_id, use_id, rating, review, created_at, update_at) VALUES(%s, %s, %s, %s, %s, %s, %s)"
 			data = (_order_id, _product_id, _user_id, _rating, _review, _created_at, _update_at)
@@ -42,7 +39,7 @@ def add_review():
 		conn.close()
 		
 @app.route('/reviews')
-def users():
+def reviews():
 	try:
 		conn = mysql.connect()
 		cursor = conn.cursor(pymysql.cursors.DictCursor)
@@ -57,8 +54,8 @@ def users():
 		cursor.close() 
 		conn.close()
 		
-@app.route('/user/')
-def user(id):
+@app.route('/review/')
+def review(id):
 	try:
 		conn = mysql.connect()
 		cursor = conn.cursor(pymysql.cursors.DictCursor)
@@ -70,11 +67,11 @@ def user(id):
 	except Exception as e:
 		print(e)
 	finally:
-		cursor.close() 
+		# cursor.close() 
 		conn.close()
 
 @app.route('/update', methods=['POST'])
-def update_user():
+def update_review():
 	try:
 		_json = request.json
 		_id = _json['id']
@@ -85,14 +82,10 @@ def update_user():
 		_review = _json['review']
 		_created_at = _json['created_at']
 		_update_at = _json['update_at']
-		# _name = _json['name']
-		# _email = _json['email']
-		# _password = _json['pwd']		
+
 		# validate the received values
 		if _order_id and product_id and _user_id and _rating and _review and _created_at and _update_at and request.method == 'POST':
-		# if _name and _email and _password and _id and request.method == 'POST':
-		# 	#do not save password as a plain text
-		# 	_hashed_password = generate_password_hash(_password)
+
 		 	# save edits
 			sql = "UPDATE tbl_user_review SET order_id=%s, product_id=%s, rating=%s, review=%s, created_at=%s, update_at=%s WHERE id=%s"
 			data = (_order_id, _product_id, _user_id, _rating, _review, _created_at, _update_at)
@@ -112,7 +105,7 @@ def update_user():
 		conn.close()
 		
 @app.route('/delete/')
-def delete_user(id):
+def delete_review(id):
 	try:
 		conn = mysql.connect()
 		cursor = conn.cursor()
